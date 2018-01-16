@@ -1,0 +1,8 @@
+Register(in=in, load=a, out=aout);
+Register(in=in, load=b, out=bout);
+Register(in=in, load=c, out=cout);
+Register(in=in, load=d, out=dout);
+Register(in=in, load=e, out=eout);
+Register(in=in, load=f, out=fout);
+Register(in=in, load=g, out=gout);
+Register(in=in, load=h, out=hout);
