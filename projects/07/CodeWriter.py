@@ -1,4 +1,4 @@
-from Commands import *
+from Definitions import *
 
 class CodeWriter:
     def __init__(self, outfile):
@@ -11,7 +11,7 @@ class CodeWriter:
     def writeArithmetic(self, command):
         cmd = command
 
-        if cmd == 'add':
+        if cmd == OP_ADD:
             self.outfile.write(['@' + self.sp, 'D=M', '@' + self.stack-1, 'M=M+D'])
             self.sp -= 1
 
@@ -19,7 +19,7 @@ class CodeWriter:
         cmd = command
         
         if cmd == C_PUSH:
-            if segment == 'constant':
+            if segment == SEG_CONSTANT:
                 outfile.write(['@' + index, 'D=A', '@' + self.sp, 'M=D']) 
                 self.sp += 1
             

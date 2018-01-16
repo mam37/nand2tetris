@@ -1,0 +1,31 @@
+# Command Types
+C_ARITHMETIC = 'C_ARITHMETIC'
+C_PUSH = 'C_PUSH'
+C_POP = 'C_POP'
+C_LABEL = 'C_LABEL'
+C_GOTO = 'C_GOTO'
+C_IF = 'C_IF'
+C_FUNCTION = 'C_FUNCTION'
+C_RETURN = 'C_RETURN'
+C_CALL = 'C_CALL'
+
+# Arithmetic Operations
+OP_ADD = 'add'
+OP_SUB = 'sub'
+OP_NEG = 'neg'
+OP_EQ = 'eq'
+OP_GT = 'gt'
+OP_LT = 'lt'
+OP_AND = 'and'
+OP_OR = 'or'
+OP_NOT = 'not'
+
+# Memory Segments
+SEG_ARGUMENT = 'argument'
+SEG_LOCAL = 'local'
+SEG_STATIC = 'static'
+SEG_CONSTANT = 'constant'
+SEG_THIS = 'this'
+SEG_THAT = 'that'
+SEG_POINTER = 'pointer'
+SEG_TEMP = 'temp'

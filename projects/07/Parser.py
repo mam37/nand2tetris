@@ -1,4 +1,4 @@
-from Commands import *
+from Definitions import *
 
 class Parser:
 
