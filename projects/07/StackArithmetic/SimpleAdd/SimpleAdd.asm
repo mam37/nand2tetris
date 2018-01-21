@@ -1,0 +1,12 @@
+@256
+D=A
+@SP
+M=D
+@SP
+M=M+1
+@SP
+M=M+1
+@1
+D=A
+@SP
+M=M-D
