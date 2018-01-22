@@ -20,8 +20,6 @@ args = argparser.parse_args()
 
 
 destPath = os.path.splitext(args.src)[0] + '.asm' 
-outfile = open(destPath, 'w')
-sp = StackPointer(outfile)
 
 if os.path.isfile(args.src):
     src = open(args.src)
@@ -29,6 +27,7 @@ if os.path.isfile(args.src):
     outfile = open(destPath, 'w')
     
     parser = Parser(src)
+    sp = StackPointer(outfile)
     codeWriter = CodeWriter(sp, outfile)
     translateFile(parser, codeWriter)
 
