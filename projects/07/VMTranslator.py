@@ -27,8 +27,7 @@ if os.path.isfile(args.src):
     outfile = open(destPath, 'w')
     
     parser = Parser(src)
-    sp = StackPointer(outfile)
-    codeWriter = CodeWriter(sp, outfile)
+    codeWriter = CodeWriter(outfile)
     translateFile(parser, codeWriter)
 
 codeWriter.close()

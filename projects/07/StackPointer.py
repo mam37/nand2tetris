@@ -6,6 +6,8 @@ class StackPointer:
 
     def __init__(self, outfile):
         self.outfile = outfile 
+        self.sp = self.MIN
+        self._ln('@' + str(self.sp))._ln('D=A')._ln('@SP')._ln('M=D')
 
     def _ln(self, str):
         self.outfile.write(str + "\n")
@@ -14,11 +16,13 @@ class StackPointer:
     def get(self):
         return self.sp
     
+    '''
     def set(self, n):
         assert type(n) is IntType
         assert self.MIN <= n <= self.MAX
         self.sp = n
         self._ln('@' + str(n))._ln('D=A')._ln('@SP')._ln('M=D')
+    '''
 
     def inc(self, n=1):
         assert type(n) is IntType

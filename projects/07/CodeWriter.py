@@ -1,12 +1,11 @@
 from types import *
 from Definitions import *
-
+from StackPointer import *
 
 class CodeWriter:
-    def __init__(self, sp, outfile):
+    def __init__(self, outfile):
         self.outfile = outfile
-        self.sp = sp
-        self.sp.set(sp.MIN)
+        self.sp = StackPointer(self.outfile)
     
     def setFileName(self, fileName):
         pass
