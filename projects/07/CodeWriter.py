@@ -16,9 +16,9 @@ class CodeWriter:
         asm = []
         if cmd == OP_ADD:
             self.sp.dec()
-            asm = ['@' + str(self.sp.get()), 'D=M', '@' + str(self.sp.get()-1), 'M=D+M'] 
+            asm = ['@SP', 'A=M', 'D=M', '@SP', 'A=M-1', 'M=D+M']
         elif cmd == OP_EQ:
-            pass
+            
 
         '''
             @SP
@@ -34,7 +34,7 @@ class CodeWriter:
         asm = []
         if cmd == C_PUSH:
             if segment == SEG_CONSTANT:
-                self._appendOutfile(['@' + str(index), 'D=A', '@' + str(self.sp.get()) , 'M=D'])
+                self._appendOutfile(['@' + str(index), 'D=A', '@SP', 'A=M', 'M=D'])
                 self.sp.inc()
     def close(self):
         self.outfile.close()
@@ -42,3 +42,23 @@ class CodeWriter:
     def _appendOutfile(self, lines):
         self.outfile.writelines(map(lambda str: str + "\n", lines))
 
+    def _routines(self, returnAddress):
+        self.outfile.writeLines(
+            '($EQ_OP)', 
+            '@SP', 
+            'A=M-1', 
+            'D=M',
+            'A=A-1',
+            'D=D-M',
+            '@$EQ_OP_TRUE',
+            'D;JEQ',
+            '($EQ_OP_FALSE)',
+            'D=0',
+            '@' + returnAddress,
+            '0;JMP',
+            '($EQ_OP_TRUE)',
+            'D=-1',
+            '@' + returnAddress
+        );
+            
+            
