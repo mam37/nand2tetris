@@ -1,4 +1,5 @@
 from types import *
+from WriterMixin import WriterMixin
 
 class StackPointer(WriterMixin):
     MIN = 256
@@ -6,12 +7,11 @@ class StackPointer(WriterMixin):
 
     def __init__(self, outfile):
         self.outfile = outfile 
+
+    def initialize(self):
         self.sp = self.MIN
         self.write(['@' + str(self.sp), 'D=A', '@SP', 'M=D'])
 
-    def get(self):
-        return self.sp
-    
     def inc(self, n=1):
         assert type(n) is IntType
         assert n > 0
