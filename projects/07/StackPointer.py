@@ -9,7 +9,7 @@ class StackPointer(WriterMixin):
         self.outfile = outfile 
 
     def initialize(self):
-        self.sp = self.MIN
+        self.sp = self.MIN 
         self.write(['@' + str(self.sp), 'D=A', '@SP', 'M=D'])
 
     def inc(self, n=1):

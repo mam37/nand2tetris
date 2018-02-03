@@ -11,7 +11,7 @@ M=D
 A=M
 D=M
 A=A-1
-D=D-M
+D=M-D
 @$$EQ.TRUE
 D;JEQ
 ($$EQ.FALSE)
@@ -34,9 +34,9 @@ M=D
 A=M
 D=M
 A=A-1
-D=D-M
+D=M-D
 @$$LT.TRUE
-D;JGT
+D;JLT
 ($$LT.FALSE)
 D=0
 @$$LT.END
@@ -57,9 +57,9 @@ M=D
 A=M
 D=M
 A=A-1
-D=D-M
+D=M-D
 @$$GT.TRUE
-D;JLT
+D;JGT
 ($$GT.FALSE)
 D=0
 @$$GT.END
@@ -291,7 +291,7 @@ A=M
 D=M
 @SP
 A=M-1
-M=D+M
+M=M+D
 @112
 D=A
 @SP
@@ -317,7 +317,7 @@ A=M
 D=M
 @SP
 A=M-1
-M=D&M
+M=M&D
 @82
 D=A
 @SP
@@ -332,7 +332,7 @@ A=M
 D=M
 @SP
 A=M-1
-M=D|M
+M=M|D
 @SP
 A=M-1
 M=!M
