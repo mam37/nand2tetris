@@ -21,6 +21,8 @@ class CodeWriter(WriterMixin):
     def writeArithmetic(self, command):
         cmd = command
 
+        self.outfile.write("//" + command + "\n")
+
         if cmd == OP_ADD:
             self._twoOperands('+')
         elif cmd == OP_EQ:
@@ -42,17 +44,62 @@ class CodeWriter(WriterMixin):
     
     def writePushPop(self, command, segment, index):
         cmd = command
-   
-        asm = []
+  
+        self.flag = False
+
+        self.outfile.write("//" + command + " " + segment + " " + str(index) + "\n")
+
         if cmd == C_PUSH:
             if segment == SEG_CONSTANT:
                 self.write(['@' + str(index), 'D=A', '@SP', 'A=M', 'M=D'])
                 self.sp.inc()
+                self.flag = True
+            elif segment == SEG_LOCAL:
+                self._pushSegment('@LCL', index)
+            elif segment == SEG_ARGUMENT:
+                self._pushSegment('@ARG', index)
+            elif segment == SEG_THIS:
+                self._pushSegment('@THIS', index)
+            elif segment == SEG_THAT:
+                self._pushSegment('@THAT', index)
+            elif segment == SEG_TEMP:
+                self.write(['@R' + str(5+int(index)), 'D=M', '@SP', 'A=M', 'M=D'])
+                self.sp.inc()
+                self.flag = True
+        elif cmd == C_POP:
+            if segment == SEG_LOCAL:
+                self._popSegment('@LCL', index)
+            elif segment == SEG_ARGUMENT:
+                self._popSegment('@ARG', index)
+            elif segment == SEG_THIS:
+                self._popSegment('@THIS', index)
+            elif segment == SEG_THAT:
+                self._popSegment('@THAT', index)
+            elif segment == SEG_TEMP:
+                self.sp.dec()
+                self.write(['@SP', 'A=M', 'D=M', '@R' + str(5 + int(index)), 'M=D'])
+                self.flag = True
+
+        if self.flag == False:
+            raise Exception(cmd, segment, index)
+
+        
     def close(self):
         self.outfile.close()
- 
+
+    def _pushSegment(self, symbol, index):
+        self.write(['@'+ str(index), 'D=A', symbol, 'A=M+D', 'D=M', '@SP', 'A=M', 'M=D']) 
+        self.sp.inc()
+        self.flag = True
+
+
+    def _popSegment(self, symbol, index):
+        self.sp.dec()
+        self.write(['@'+ str(index), 'D=A', symbol, 'D=M+D', '@R13', 'M=D', '@SP', 'A=M', 'D=M', '@R13', 'A=M', 'M=D']) 
+        self.flag = True
+
     def _oneOperand(self, symbol):
-            self.write(['@SP', 'A=M-1', 'M=' + symbol + 'M']);
+        self.write(['@SP', 'A=M-1', 'M=' + symbol + 'M']);
         
 
     def _twoOperands(self, symbol):

@@ -9,7 +9,7 @@ def translateFile(parser, codeWriter):
     while parser.hasMoreCommands():
         parser.advance()
         cmd = parser.commandType()
-        if cmd == C_PUSH:
+        if cmd == C_PUSH or cmd == C_POP:
             codeWriter.writePushPop(cmd, parser.arg1(), parser.arg2())
         elif cmd == C_ARITHMETIC:
             codeWriter.writeArithmetic(parser.arg1())
