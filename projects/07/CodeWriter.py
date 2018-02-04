@@ -1,7 +1,10 @@
+import os
+
 from types import *
 from Definitions import *
 from StackPointer import *
 from WriterMixin import WriterMixin
+
 
 class CodeWriter(WriterMixin):
     def __init__(self, outfile):
@@ -16,7 +19,11 @@ class CodeWriter(WriterMixin):
         self.n = 0
 
     def setFileName(self, fileName):
-        pass
+        self.fileName = fileName 
+        
+
+    def _staticSymbol(self, n):
+        return '@' + os.path.basename(self.fileName) + '.' + n
 
     def writeArithmetic(self, command):
         cmd = command
@@ -66,6 +73,16 @@ class CodeWriter(WriterMixin):
                 self.write(['@R' + str(5+int(index)), 'D=M', '@SP', 'A=M', 'M=D'])
                 self.sp.inc()
                 self.flag = True
+            elif segment == SEG_POINTER:
+                reg = '@THIS' if index == '0' else '@THAT'
+                self.write([reg, 'D=M', '@SP', 'A=M', 'M=D'])
+                self.sp.inc()
+                self.flag = True
+            elif segment == SEG_STATIC:
+                self.write([self._staticSymbol(index), 'D=M', '@SP', 'A=M', 'M=D'])
+                self.sp.inc()
+                self.flag = True
+                
         elif cmd == C_POP:
             if segment == SEG_LOCAL:
                 self._popSegment('@LCL', index)
@@ -79,7 +96,15 @@ class CodeWriter(WriterMixin):
                 self.sp.dec()
                 self.write(['@SP', 'A=M', 'D=M', '@R' + str(5 + int(index)), 'M=D'])
                 self.flag = True
-
+            elif segment == SEG_POINTER:
+                self.sp.dec()
+                reg = '@THIS' if index == '0' else '@THAT'
+                self.write(['@SP', 'A=M', 'D=M', reg, 'M=D']) 
+                self.flag = True
+            elif segment == SEG_STATIC:
+                self.sp.dec()
+                self.write(['@SP', 'A=M', 'D=M', self._staticSymbol(index), 'M=D'])
+                self.flag = True
         if self.flag == False:
             raise Exception(cmd, segment, index)
 

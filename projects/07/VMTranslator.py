@@ -28,6 +28,7 @@ if os.path.isfile(args.src):
     
     parser = Parser(src)
     codeWriter = CodeWriter(outfile)
+    codeWriter.setFileName(args.src)
     translateFile(parser, codeWriter)
 
 codeWriter.close()
