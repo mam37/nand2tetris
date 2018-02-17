@@ -1,8 +1,5 @@
 import argparse, os
-from Parser import Parser
-from CodeWriter import CodeWriter
-from Definitions import *
-from StackPointer import StackPointer
+from VMLib import *
 
 def translateFile(parser, codeWriter):
     parser.reset()
